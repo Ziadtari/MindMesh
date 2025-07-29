@@ -11,6 +11,7 @@ import {
   FiUserPlus,
   FiMoon,
   FiSun,
+  FiMenu,
 } from "react-icons/fi";
 
 function App() {
@@ -24,14 +25,16 @@ function App() {
   const [inputValue, setInputValue] = useState("");
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
+  const [chatHistory, setChatHistory] = useState([]);
+  const [currentChatId, setCurrentChatId] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const messagesEndRef = useRef(null);
 
   const features = [
     {
       icon: <FiActivity />,
       title: "AI-Powered Therapy",
-      description:
-        "24/7 access to confidential mental health support powered by advanced AI.",
+      description: "24/7 access to confidential mental health support powered by advanced AI.",
     },
     {
       icon: <FiLock />,
@@ -61,25 +64,104 @@ function App() {
     e.preventDefault();
     if (inputValue.trim() === "" || loading) return;
 
-    setMessages((prev) => [...prev, { text: inputValue.trim(), sender: "user" }]);
+    const newUserMessage = { text: inputValue.trim(), sender: "user" };
+    const updatedMessages = [...messages, newUserMessage];
+    setMessages(updatedMessages);
     setInputValue("");
     setLoading(true);
 
     setTimeout(() => {
-      setMessages((prev) => [
-        ...prev,
-        {
-          text:
-            "I'm here to listen and provide support. For emergencies, please contact professional help immediately.",
-          sender: "bot",
-        },
-      ]);
+      const botResponse = {
+        text: "I'm here to listen and provide support. For emergencies, please contact professional help immediately.",
+        sender: "bot",
+      };
+      const finalMessages = [...updatedMessages, botResponse];
+      setMessages(finalMessages);
+      
+      // Update chat history
+      if (currentChatId) {
+        setChatHistory(prev => prev.map(chat => 
+          chat.id === currentChatId 
+            ? { ...chat, messages: finalMessages, updatedAt: new Date() }
+            : chat
+        ));
+      } else {
+        const newChat = {
+          id: Date.now(),
+          title: inputValue.trim().slice(0, 30) || "New Conversation",
+          messages: finalMessages,
+          createdAt: new Date(),
+          updatedAt: new Date()
+        };
+        setChatHistory(prev => [newChat, ...prev]);
+        setCurrentChatId(newChat.id);
+      }
+      
       setLoading(false);
     }, 1200);
   };
 
+  const startNewChat = () => {
+    setMessages([{
+      text: "Welcome to MindMesh! I'm your AI mental health assistant. How can I help you today?",
+      sender: "bot",
+    }]);
+    setCurrentChatId(null);
+    setChatOpen(true);
+  };
+
+  const loadChat = (chatId) => {
+    const chat = chatHistory.find(c => c.id === chatId);
+    if (chat) {
+      setMessages(chat.messages);
+      setCurrentChatId(chatId);
+      setChatOpen(true);
+    }
+  };
+
+  const ChatHistorySidebar = () => (
+    <div className={`sidebar ${sidebarOpen ? 'open' : ''}`}>
+      <div className="sidebar-header">
+        <button onClick={() => setSidebarOpen(false)} className="sidebar-close">
+          <FiX />
+        </button>
+        <h3>Chat History</h3>
+        <button onClick={startNewChat} className="new-chat-btn">
+          <FiMessageSquare /> New Chat
+        </button>
+      </div>
+      <div className="chat-list">
+        {chatHistory.map(chat => (
+          <div 
+            key={chat.id} 
+            className={`chat-item ${currentChatId === chat.id ? 'active' : ''}`}
+            onClick={() => loadChat(chat.id)}
+          >
+            <FiMessageSquare className="chat-icon" />
+            <div className="chat-info">
+              <h4>{chat.title}</h4>
+              <p>{new Date(chat.updatedAt).toLocaleDateString()}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+
   return (
     <div className={`app-container ${darkMode ? "dark" : ""}`}>
+      <ChatHistorySidebar />
+      
+      {!sidebarOpen && (
+        <button 
+          onClick={() => setSidebarOpen(true)} 
+          className="sidebar-toggle-btn"
+          aria-label="Open chat history"
+        >
+          <FiMenu />
+        </button>
+      )}
+
       <header className="header">
         <nav className="nav">
           <div className="nav-left">
@@ -116,7 +198,7 @@ function App() {
                 privacy.
               </p>
               <div className="hero-buttons">
-                <button onClick={() => setChatOpen(true)} className="start-chat">
+                <button onClick={startNewChat} className="start-chat">
                   <FiMessageSquare /> Start Chatting
                 </button>
                 <button className="learn-more">Learn More</button>
@@ -186,7 +268,7 @@ function App() {
       </aside>
 
       {!chatOpen && (
-        <button onClick={() => setChatOpen(true)} className="floating-btn" aria-label="Open chat">
+        <button onClick={startNewChat} className="floating-btn" aria-label="Open chat">
           <FiMessageSquare />
         </button>
       )}
