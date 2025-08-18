@@ -176,10 +176,10 @@ function App() {
           </div>
           <div className="nav-right">
             <button className="nav-btn">
-              <FiLogIn /> Sign In
+              <FiLogIn /> Login
             </button>
             <button className="register-btn">
-              <FiUserPlus /> Register
+              <FiUserPlus /> Signup
             </button>
           </div>
         </nav>
