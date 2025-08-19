@@ -219,3 +219,12 @@ body {
     right: 1rem;
   }
 }
+
+.disclaimer-banner {
+  background-color: #fff3cd; /* soft yellow warning */
+  color: #856404; 
+  padding: 10px 20px;
+  text-align: center;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #ffeeba;
+}

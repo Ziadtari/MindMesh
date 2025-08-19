@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";   // ✅ for navigation
 import './App.css';
 import {
   FiMessageSquare,
@@ -18,7 +19,7 @@ function App() {
   const [chatOpen, setChatOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
-      text: "Welcome to MindMesh! I'm your AI mental health assistant. How can I help you today?",
+      text: "Welcome to MindMesh! I'm your AI mental health assistant. Please remember: I am not a substitute for professional medical help. 🚨 If you are in crisis or experiencing an emergency, contact your doctor or local emergency services immediately.",
       sender: "bot",
     },
   ]);
@@ -72,16 +73,15 @@ function App() {
 
     setTimeout(() => {
       const botResponse = {
-        text: "I'm here to listen and provide support. For emergencies, please contact professional help immediately.",
+        text: "I'm here to listen and provide support. Please remember that I'm not a medical professional. 🚑 If you ever feel unsafe or at risk, seek immediate help from a doctor, therapist, or emergency service.",
         sender: "bot",
       };
       const finalMessages = [...updatedMessages, botResponse];
       setMessages(finalMessages);
-      
-      // Update chat history
+
       if (currentChatId) {
-        setChatHistory(prev => prev.map(chat => 
-          chat.id === currentChatId 
+        setChatHistory(prev => prev.map(chat =>
+          chat.id === currentChatId
             ? { ...chat, messages: finalMessages, updatedAt: new Date() }
             : chat
         ));
@@ -96,14 +96,14 @@ function App() {
         setChatHistory(prev => [newChat, ...prev]);
         setCurrentChatId(newChat.id);
       }
-      
+
       setLoading(false);
     }, 1200);
   };
 
   const startNewChat = () => {
     setMessages([{
-      text: "Welcome to MindMesh! I'm your AI mental health assistant. How can I help you today?",
+      text: "Welcome to MindMesh! I'm your AI mental health assistant. Remember: I cannot replace professional care. 🚨 If you are in crisis, please reach out to emergency services or a licensed therapist immediately.",
       sender: "bot",
     }]);
     setCurrentChatId(null);
@@ -132,8 +132,8 @@ function App() {
       </div>
       <div className="chat-list">
         {chatHistory.map(chat => (
-          <div 
-            key={chat.id} 
+          <div
+            key={chat.id}
             className={`chat-item ${currentChatId === chat.id ? 'active' : ''}`}
             onClick={() => loadChat(chat.id)}
           >
@@ -151,10 +151,10 @@ function App() {
   return (
     <div className={`app-container ${darkMode ? "dark" : ""}`}>
       <ChatHistorySidebar />
-      
+
       {!sidebarOpen && (
-        <button 
-          onClick={() => setSidebarOpen(true)} 
+        <button
+          onClick={() => setSidebarOpen(true)}
           className="sidebar-toggle-btn"
           aria-label="Open chat history"
         >
@@ -175,15 +175,21 @@ function App() {
             </button>
           </div>
           <div className="nav-right">
-            <button className="nav-btn">
+            <Link to="/login" className="nav-btn">
               <FiLogIn /> Login
-            </button>
-            <button className="register-btn">
+            </Link>
+            <Link to="/signup" className="register-btn">
               <FiUserPlus /> Signup
-            </button>
+            </Link>
           </div>
         </nav>
       </header>
+
+      {/* ✅ Disclaimer Banner */}
+<div className="disclaimer-banner">
+  ⚠️ Disclaimer: MindMesh is an AI assistant, not a licensed professional.  
+  If you are in crisis or experiencing an emergency, please seek immediate help from a doctor or call local emergency services.
+</div>
 
       <main className="main-content">
         <section className="hero-section">
@@ -287,6 +293,8 @@ function App() {
           </nav>
         </div>
         <p className="footer-copy">&copy; {new Date().getFullYear()} MindMesh. All rights reserved.</p>
+
+        
       </footer>
     </div>
   );
