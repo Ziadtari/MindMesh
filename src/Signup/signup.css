@@ -1,0 +1,287 @@
+/* src/Signup/signup.css */
+.auth-container {
+ margin-top: 70px;
+  margin-bottom: 70px;
+  display: flex;
+  margin-left: 500px;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 1rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-size: 200% 200%;
+  animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.auth-card {
+  background: rgba(255, 255, 255, 0.95);
+  padding: clamp(1.5rem, 5vw, 3rem);
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+  width: min(90vw, 500px);
+  margin: 1rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transform-style: preserve-3d;
+  transform: perspective(1000px);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.auth-card:hover {
+  transform: perspective(1000px) translateY(-5px);
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+}
+
+.auth-card h2 {
+  text-align: center;
+  margin-bottom: clamp(1.5rem, 4vw, 2rem);
+  color: #2d3748;
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-weight: 700;
+  background: linear-gradient(to right, #6366f1, #8b5cf6);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.form-group {
+  margin-bottom: clamp(1rem, 3vw, 1.75rem);
+  position: relative;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: clamp(0.5rem, 2vw, 0.75rem);
+  color: #4a5568;
+  font-weight: 600;
+  font-size: clamp(0.9rem, 3vw, 1rem);
+}
+
+.form-group input {
+  width: 100%;
+  padding: clamp(0.8rem, 3vw, 1rem) clamp(1rem, 3vw, 1.25rem);
+  border: 2px solid #e2e8f0;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #2d3748;
+  font-size: clamp(0.9rem, 3vw, 1rem);
+  transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+  background-color: white;
+}
+
+/* Google Button Container */
+.google-auth-container {
+  margin-bottom: clamp(1rem, 4vw, 2rem);
+  display: flex;
+  justify-content: center;
+}
+
+/* Divider */
+.auth-divider {
+  display: flex;
+  align-items: center;
+  margin: clamp(1rem, 4vw, 2rem) 0;
+  color: #94a3b8;
+  font-size: clamp(0.8rem, 3vw, 0.9rem);
+  font-weight: 500;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 2px solid rgba(226, 232, 240, 0.6);
+}
+
+.auth-divider::before {
+  margin-right: clamp(1rem, 3vw, 1.5rem);
+}
+
+.auth-divider::after {
+  margin-left: clamp(1rem, 3vw, 1.5rem);
+}
+
+/* Password Strength */
+.password-strength {
+  margin: clamp(0.5rem, 2vw, 1rem) 0;
+  height: 6px;
+  background-color: rgba(226, 232, 240, 0.6);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.password-strength-bar {
+  height: 100%;
+  transition: all 0.4s ease;
+}
+
+.password-strength-text {
+  font-size: clamp(0.7rem, 2.5vw, 0.8rem);
+  font-weight: 600;
+  margin-top: 0.5rem;
+  display: block;
+  text-align: right;
+}
+
+/* Password Requirements */
+.password-requirements {
+  margin-top: clamp(1rem, 3vw, 1.5rem);
+  padding: clamp(0.8rem, 3vw, 1.25rem);
+  background-color: rgba(248, 250, 252, 0.6);
+  border-radius: 12px;
+  border: 2px solid rgba(226, 232, 240, 0.4);
+}
+
+.password-requirements p {
+  font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+  color: #475569;
+  margin-bottom: clamp(0.5rem, 2vw, 0.75rem);
+  font-weight: 600;
+}
+
+.password-requirements ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 0.5rem;
+}
+
+.password-requirements li {
+  font-size: clamp(0.7rem, 2.5vw, 0.8rem);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.password-requirements li.valid {
+  color: #10b981;
+}
+
+.password-requirements li.invalid {
+  color: #94a3b8;
+}
+
+.password-requirements li svg {
+  font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+}
+
+/* Submit Button */
+.auth-btn {
+  width: 100%;
+  padding: clamp(0.8rem, 3vw, 1rem);
+  background: linear-gradient(to right, #6366f1, #8b5cf6);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: clamp(0.95rem, 3vw, 1.05rem);
+  margin-top: clamp(0.8rem, 3vw, 1rem);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+}
+
+.auth-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.auth-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+  background: #cbd5e1;
+  box-shadow: none;
+}
+
+/* Footer Link */
+.auth-footer {
+  text-align: center;
+  margin-top: clamp(1.5rem, 4vw, 2rem);
+  color: #64748b;
+  font-size: clamp(0.85rem, 3vw, 0.95rem);
+}
+
+.auth-footer a {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.auth-footer a:hover {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+
+/* Error Message */
+.auth-error {
+  color: #ef4444;
+  text-align: center;
+  margin-bottom: clamp(1rem, 3vw, 1.5rem);
+  padding: clamp(0.8rem, 3vw, 1rem);
+  background-color: rgba(239, 68, 68, 0.1);
+  border-radius: 10px;
+  font-size: clamp(0.8rem, 3vw, 0.9rem);
+  font-weight: 500;
+  border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+/* Password Toggle */
+.password-input-container {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: clamp(0.8rem, 3vw, 1rem);
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0.25rem;
+  transition: all 0.2s ease;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+}
+
+.password-toggle:hover {
+  color: #6366f1;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .password-requirements ul {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 0.5rem;
+  }
+  
+  .auth-card {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+  
+  .form-group input {
+    padding: 0.8rem 1rem;
+  }
+}

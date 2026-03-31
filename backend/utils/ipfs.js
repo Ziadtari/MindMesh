@@ -1,0 +1,9 @@
+import { Web3Storage, File } from 'web3.storage';
+
+const client = new Web3Storage({ token: process.env.WEB3_STORAGE_TOKEN });
+
+export async function storeChatLog(log) {
+  const file = new File([JSON.stringify(log)], 'chatlog.json', { type: 'application/json' });
+  const cid = await client.put([file]);
+  return cid;
+}
